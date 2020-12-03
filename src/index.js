@@ -1,25 +1,13 @@
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from 'apollo-server'
+import schema from './schema'
+import { City } from './models/city.model'
 import './utils/config'
 
 const PORT = process.env.PORT
 
-const typeDefs = gql`
-  type Query {
-    "A simple type for getting started!"
-    hello: String
-  }
-`
-
-// A map of functions which return data for the schema.
-const resolvers = {
-  Query: {
-    hello: () => 'world'
-  }
-}
-
 const server = new ApolloServer({
-  typeDefs,
-  resolvers
+  schema: schema,
+  context: { City }
 })
 
 server.listen(PORT).then(({ url }) => {

@@ -11,6 +11,8 @@ type Query {
     allPatients: [Patient!]
     issue(_id: String!): Issue
     allIssues: [Issue!]
+    assessment(_id: String!): Assessment
+    allAssessments: [Assessment!]
 }
 type Mutation {
     createStaff(email: String!, name: String): Staff!
@@ -25,6 +27,9 @@ type Mutation {
     createIssue(description: String): Issue!
     updateIssue(_id: String!): Issue!
     removeIssue(_id: String!): Issue!
+    createAssessment(assessmentInput: AssessmentInput!): Assessment!
+    updateAssessment(_id: String!): Assessment!
+    removeAssessment(_id: String!): Assessment!
 }
 type Staff {
     _id: String
@@ -66,6 +71,40 @@ type Issue {
 }
 input IssueInput {
     description: String
+}
+type ObjectNotFound {
+    message: String!
+}
+type Visit {
+    _id: String!
+    attendingBy: Staff
+    patient: Patient
+    location: City
+    createdAt: String!
+    updatedAt: String!
+}
+type VisitInput {
+    attendingBy: String!
+    patient: String!
+    location: String!
+    createdAt: String!
+    updatedAt: String!
+}
+type Assessment {
+    _id: String!
+    assessmentBy: Staff
+    assessmentOf: Staff
+    satisfactionRating: Int
+    createdAt: String!
+    updatedAt: String!
+    issues: [Issue]
+    visit: Visit
+}
+input AssessmentInput {
+    name: String
+    assessmentBy: String
+    assessmentOf: String
+    satisfactionRating: Int
 }
 schema {
     query: Query

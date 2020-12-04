@@ -39,5 +39,10 @@
   "bugs": {
     "url": "https://github.com/chainedcoder/analytic/issues"
   },
-  "homepage": "https://github.com/chainedcoder/analytic#readme"
+  "homepage": "https://github.com/chainedcoder/analytic#readme",
+  "eslintConfig": {
+    "rules": {
+        "no-var": 0
+    }
+  }
 }

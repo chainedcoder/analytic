@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js --exec \"node -r dotenv/config -r esm\"",
-    "test": "NODE_ENV=mocha mocha -r dotenv/config -r esm --recursive './{,!(node_modules)/**}/*.test.js'"
+    "test": "NODE_ENV=mocha mocha -r dotenv/config -r esm --recursive './{,!(node_modules)/**}/*.test.js' --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.0",
+    "apollo-server-testing": "^2.19.0",
+    "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "graphql": "^15.4.0",

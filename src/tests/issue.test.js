@@ -55,7 +55,6 @@ it('Creates a issue', async function () {
     }
     expect(ObjectId.isValid(d.data.createIssue._id)).to.be.equal(true)
     expect(d.data.createIssue.description).to.be.equal(issue.description)
-    // assert(d.data.createIssue)
   } catch (error) {
     throw new Error(error)
   }

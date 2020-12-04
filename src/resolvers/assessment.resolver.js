@@ -1,19 +1,3 @@
-import { ApolloError } from 'apollo-server'
-const getIssues = (issuesIds) => {
-  var issues = []
-  for (let i = 0; i < issuesIds.length; i++) {
-    try {
-      if (issuesIds[i]) issues.push(issuesIds[i])
-    } catch (err) {
-      throw new ApolloError(
-        "We couldn't find the issue with id ${issuesIds[i]}.",
-        'ObjectNotFound'
-      )
-    }
-  }
-  return issues
-}
-
 export default {
   Query: {
     assessment: async (parent, args, { Assessment }) => {
@@ -32,7 +16,7 @@ export default {
     createAssessment: async (
       parent,
       { assessmentInput },
-      { Assessment, Visit, Staff }
+      { Assessment, Visit, Staff, Issue }
     ) => {
       const {
         visitId,
@@ -46,17 +30,35 @@ export default {
       }).save()
 
       try {
-        const issues = await getIssues(issuesIds)
+        var issues = []
+        for (let i = 0; i < issuesIds.length; i++) {
+          try {
+            const issue = await Issue.findOne({ _id: issuesIds[i] }).exec()
+            issues.push(issue)
+          } catch (err) {
+            console.log('error')
+          }
+        }
+        var errors = []
+        var visit = null
+
         const assessmentBy = await Staff.findOne({ _id: assessmentById }).exec()
+        console.log(3, Staff, assessmentBy, assessmentById)
         const assessmentOf = await Staff.findOne({ _id: assessmentOfId }).exec()
-        const visit = await Visit.findOne({ _id: visitId }).exec()
+        try {
+          visit = await Visit.findOne({ _id: visitId }).exec()
+        } catch (err) {
+          errors.push('Visit not found')
+        }
+
+        console.log(5)
         const updatedAssessment = await Assessment.findOneAndUpdate(
           { _id: assessment._id },
           {
             issues: issues,
             visit: visit,
-            assessmentBy: assessmentBy,
-            assessmentOf: assessmentOf
+            assessmentBy: assessmentBy._id,
+            assessmentOf: assessmentOf._id
           },
           { new: true }
         )

@@ -16,4 +16,4 @@ export const assementSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export const Assement = mongoose.model('Assement', assementSchema)
+export const Assessment = mongoose.model('Assessment', assementSchema)

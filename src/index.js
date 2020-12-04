@@ -4,13 +4,14 @@ import { City } from './models/city.model'
 import { Staff } from './models/staff.model'
 import { Patient } from './models/patient.models'
 import { Issue } from './models/issue.model'
+import { Assessment } from './models/assessment.models'
 import './utils/config'
 
 const PORT = process.env.PORT
 
 const server = new ApolloServer({
   schema: schema,
-  context: { City, Staff, Patient, Issue }
+  context: { City, Staff, Patient, Issue, Assessment }
 })
 
 server.listen(PORT).then(({ url }) => {

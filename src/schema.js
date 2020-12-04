@@ -9,6 +9,8 @@ type Query {
     allStaff: [Staff!]
     patient(_id: String!): Patient
     allPatients: [Patient!]
+    issue(_id: String!): Issue
+    allIssues: [Issue!]
 }
 type Mutation {
     createStaff(email: String!, name: String): Staff!
@@ -20,6 +22,9 @@ type Mutation {
     createPatient(patientInput: PatientInput!): Patient!
     updatePatient(_id: String!, patientInput: PatientInput!): Patient!
     removePatient(_id: String!): Patient!
+    createIssue(description: String): Issue!
+    updateIssue(_id: String!): Issue!
+    removeIssue(_id: String!): Issue!
 }
 type Staff {
     _id: String
@@ -52,7 +57,16 @@ input PatientInput {
     name: String
     staff: [String]
 }
-
+type Issue {
+    _id: String
+    description: String
+    count: Int
+    createdAt: String!
+    updatedAt: String!
+}
+input IssueInput {
+    description: String
+}
 schema {
     query: Query
     mutation: Mutation

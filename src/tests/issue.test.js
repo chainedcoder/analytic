@@ -31,8 +31,8 @@ after(async (done) => {
   return done()
 })
 
-it('Creates a issue', async function () {
-  const issue = { description: 'Nairobi' }
+it('Creates an issue', async function () {
+  const issue = { description: 'Wrong prescription' }
   try {
     const QUERY = `
           mutation createIssue($description: String!) {
@@ -61,11 +61,11 @@ it('Creates a issue', async function () {
 })
 
 it('Fetch all issues', async function () {
-  const issue = { description: 'Nairobi' }
+  const issue = { description: 'Wrong prescription' }
   try {
     const QUERY = `
-    query allCities {
-      allCities {
+    query allIssues {
+      allIssues {
         _id
         description
       }
@@ -82,8 +82,8 @@ it('Fetch all issues', async function () {
     if (d.errors) {
       throw new Error(d.errors)
     }
-    expect(d.data.allCities.length).to.be.equal(1)
-    expect(d.data.allCities[0].description).to.be.equal(issue.description)
+    expect(d.data.allIssues.length).to.be.equal(1)
+    expect(d.data.allIssues[0].description).to.be.equal(issue.description)
   } catch (error) {
     throw new Error(error)
   }

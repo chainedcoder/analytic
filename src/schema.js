@@ -6,7 +6,9 @@ type Query {
     city(_id: String!): City
     allCities: [City!]
     staff(_id: String!): Staff
-    allStaffs: [Staff!]
+    allStaff: [Staff!]
+    patient(_id: String!): Patient
+    allPatients: [Patient!]
 }
 type Mutation {
     createStaff(email: String!, name: String): Staff!
@@ -15,6 +17,9 @@ type Mutation {
     createCity(cityName: String): City!
     updateCity(_id: String!, cityInput: CityInput!): City!
     removeCity(_id: String!): City!
+    createPatient(patientInput: PatientInput!): Patient!
+    updatePatient(_id: String!, patientInput: PatientInput!): Patient!
+    removePatient(_id: String!): Patient!
 }
 type Staff {
     _id: String
@@ -35,6 +40,17 @@ type City {
 }
 input CityInput {
     cityName: String
+}
+type Patient {
+    _id: String!
+    name: String
+    staff: Staff
+    createdAt: String!
+    updatedAt: String!
+}
+input PatientInput {
+    name: String
+    staff: [String]
 }
 
 schema {

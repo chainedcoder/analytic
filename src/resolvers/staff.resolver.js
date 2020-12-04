@@ -4,9 +4,9 @@ export default {
       const staff = await Staff.findOne({ _id: args._id })
       return staff
     },
-    allStaffs: async (parent, args, { Staff }) => {
-      const staffs = await Staff.find()
-      return staffs.map((staff) => {
+    allStaff: async (parent, args, { Staff }) => {
+      const staff = await Staff.find()
+      return staff.map((staff) => {
         staff._id = staff._id.toString()
         return staff
       })

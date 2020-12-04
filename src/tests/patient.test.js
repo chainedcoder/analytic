@@ -1,5 +1,5 @@
 import schema from '../schema'
-import { Staff } from '../models/staff.model'
+import { Patient } from '../models/patient.models'
 import './test_helper'
 import { ObjectId } from 'mongodb'
 import { expect } from 'chai'
@@ -14,13 +14,13 @@ const { ApolloServer } = require('apollo-server')
 // use our production schema
 const testServer = new ApolloServer({
   schema: schema,
-  context: { Staff }
+  context: { Patient }
 })
 
 const client = apolloTesting.createTestClient(testServer)
 before(async (done) => {
   // End by dropping collect - might be redadunt
-  mongoose.connection.collections.staffs.drop(() => {})
+  mongoose.connection.collections.patients.drop(() => {})
   return done()
 })
 after(async (done) => {
@@ -31,15 +31,14 @@ after(async (done) => {
   return done()
 })
 
-it('Creates a staff', async function () {
-  const staff = { name: 'Judy', email: 'judy@analytic.io' }
+it('Creates a patient', async function () {
+  const patient = { name: 'Judy' }
   try {
     const QUERY = `
-          mutation createStaff($name: String!, $email:String!) {
-            createStaff(name: $name, email:$email) {
+          mutation createPatient($name: String!) {
+            createPatient(patientInput: { name: $name }) {
               _id
               name
-              email
             }
           }
         `
@@ -47,29 +46,28 @@ it('Creates a staff', async function () {
     const d = await client.mutate({
       query: QUERY,
       variables: {
-        ...staff
+        ...patient
       }
     })
 
     if (d.errors) {
       throw new Error(d.errors)
     }
-    expect(ObjectId.isValid(d.data.createStaff._id)).to.be.equal(true)
-    expect(d.data.createStaff.name).to.be.equal(staff.name)
+    expect(ObjectId.isValid(d.data.createPatient._id)).to.be.equal(true)
+    expect(d.data.createPatient.name).to.be.equal(patient.name)
   } catch (error) {
     throw new Error(error)
   }
 })
 
-it('Fetch all staff', async function () {
-  const staff = { name: 'Judy', email: 'judy@analytic.io' }
+it('Fetch all patients', async function () {
+  const patient = { name: 'Judy', email: 'judy@analytic.io' }
   try {
     const QUERY = `
-          query allStaff {
-            allStaff {
+          query allPatients {
+            allPatients {
               _id
               name
-              email
             }
           }
         `
@@ -77,16 +75,15 @@ it('Fetch all staff', async function () {
     const d = await client.mutate({
       query: QUERY,
       variables: {
-        ...staff
+        ...patient
       }
     })
 
     if (d.errors) {
       throw new Error(d.errors)
     }
-    expect(d.data.allStaff.length).to.be.equal(1)
-    expect(d.data.allStaff[0].name).to.be.equal(staff.name)
-    expect(d.data.allStaff[0].email).to.be.equal(staff.email)
+    expect(d.data.allPatients.length).to.be.equal(1)
+    expect(d.data.allPatients[0].name).to.be.equal(patient.name)
   } catch (error) {
     throw new Error(error)
   }

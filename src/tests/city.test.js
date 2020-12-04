@@ -18,18 +18,12 @@ const testServer = new ApolloServer({
 })
 
 const client = apolloTesting.createTestClient(testServer)
-before((done) => {
-  // start on a clean slate
-  mongoose.connection.collections.cities.drop(() => {
-    done()
-  })
-})
-
-after(async (done) => {
+before(async (done) => {
   // End by dropping collect - might be redadunt
-  mongoose.connection.collections.cities.drop(() => {
-    process.exit(0)
-  })
+  mongoose.connection.collections.cities.drop(() => {})
+  return done()
+})
+after(async (done) => {
   // close connection
   mongoose.connection.close(function () {
     process.exit(0)
@@ -71,13 +65,13 @@ it('Fetch all cities', async function () {
   const city = { cityName: 'Nairobi' }
   try {
     const QUERY = `
-          query allCities {
-            allCities {
-              _id
-              cityName
-            }
-          }
-        `
+    query allCities {
+      allCities {
+        _id
+        cityName
+      }
+    }
+    `
 
     const d = await client.mutate({
       query: QUERY,

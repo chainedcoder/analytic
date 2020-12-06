@@ -14,9 +14,8 @@ type Query {
     assessment(_id: String!): Assessment
     allAssessments: [Assessment!]
 }
-union CreateStafResults = Staff | ObjectNotFound
 type Mutation {
-    createStaff(email: String!, name: String): CreateStafResults
+    createStaff(email: String!, name: String): Staff
     updateStaff(_id: String!, staffInput: StaffInput!): Staff!
     removeStaff(_id: String!): Staff!
     createCity(cityName: String): City!

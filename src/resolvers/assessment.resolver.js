@@ -21,12 +21,12 @@ export default {
       const {
         visitId,
         issuesIds,
-        satisfactoryRating,
+        satisfactionRating,
         assessmentById,
         assessmentOfId
       } = assessmentInput
       const assessment = await new Assessment({
-        satisfactoryRating: satisfactoryRating
+        satisfactionRating: satisfactionRating
       }).save()
 
       try {
@@ -51,7 +51,6 @@ export default {
           errors.push('Visit not found')
         }
 
-        console.log(5)
         const updatedAssessment = await Assessment.findOneAndUpdate(
           { _id: assessment._id },
           {

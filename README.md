@@ -2,6 +2,9 @@
 
 An analytics application for a hostpital setting.
 
+## Test 
+Test server runs at http://54.242.40.251:5001/
+
 ## Installation
 
 Install dependencies with npm.
@@ -24,6 +27,9 @@ The all.test.js allows for sequencial tests.
 require('./path/to/testfile')
 //Add more requires as needed
 ```
+##Problem definition
+![Alt text](relative/path/to/img.jpg?raw=true "Title")
+
 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
